@@ -8,7 +8,7 @@ Clase : PrimsCircles
 Esta clase se encarga de generar los numeros primos ciclicos y mostrarlos como asi tambien 
 la cantidad de numeros primos ciclicos que se generan
 */
-
+import java.util.Arrays;
 public class PrimsCircles {
 	
 		//atributos
@@ -58,7 +58,23 @@ public class PrimsCircles {
 	    }
 
 	    //metodo que realiza la inicialización
-	    private int [] init (){return CalcSieve(this.limit);}
+	    private int [] init (){return CalcSieve(limit);}
+
+
+		int[] getCircular(int n){
+	        char[] nString = Integer.toString(n).toCharArray();
+	        int[] array = new int[nString.length - 1];
+	        for (int i = 0; i < nString.length - 1; i++){
+	            char aux = nString[0];
+	            for (int j = 0; j < nString.length - 1; j++){
+	                nString[j] = nString[j+1];
+	            }
+	            nString[nString.length - 1] = aux;
+	            array[i] = Integer.parseInt(String.valueOf(nString));
+	        }
+	        return array;
+	    }
+
 
 
 	    /*metodo se encarga de obtener los primos ciclicos.
@@ -69,7 +85,7 @@ public class PrimsCircles {
 		Aclaración 1: considere a los numeros primos de 1 digito como numeros ciclicos
 		Aclaración 2: con start() arranca el thread y con stop() finaliza.
 	    */
-	    private int [] getPrimsCircles(){
+	    int [] getPrimsCircles(){
 	    	int [] primos = init();
 	    	int dos_cifrasD = 0,dos_cifrasH = 0;
 	    	int tres_cifrasD = 0,tres_cifrasH = 0;
@@ -77,6 +93,7 @@ public class PrimsCircles {
 	    	int cinco_cifrasD = 0,cinco_cifrasH = 0;
 	    	int seis_cifrasD = 0,seis_cifrasH = 0;
 	    	for (int i = 4; i < primos.length; i++) {
+
 	    		if (primos[i]>10 && dos_cifrasD==0){dos_cifrasD=i;}
 	    		if (primos[i]<100){dos_cifrasH=i;}
 	    		
@@ -92,11 +109,13 @@ public class PrimsCircles {
 	    		if (primos[i]>100000 && seis_cifrasD==0){seis_cifrasD=i;}
 	    		if (primos[i]<1000000){seis_cifrasH=i;}
 			}
-	    	Proceso hilo1 = new Proceso("Hilo2", dos_cifrasD, dos_cifrasH, primos, 2);
-	    	Proceso hilo2 = new Proceso("Hilo3", tres_cifrasD, tres_cifrasH, primos, 3);
-	    	Proceso hilo3 = new Proceso("Hilo4", cuatro_cifrasD, cuatro_cifrasH, primos, 4);
-	    	Proceso hilo4 = new Proceso("Hilo5", cinco_cifrasD, cinco_cifrasH, primos, 5);
-	    	Proceso hilo5 = new Proceso("Hilo6", seis_cifrasD, seis_cifrasH, primos, 6);
+
+
+	    	Proceso hilo1 = new Proceso("Hilo2", dos_cifrasD, dos_cifrasH, primos);
+	    	Proceso hilo2 = new Proceso("Hilo3", tres_cifrasD, tres_cifrasH, primos);
+	    	Proceso hilo3 = new Proceso("Hilo4", cuatro_cifrasD, cuatro_cifrasH, primos);
+	    	Proceso hilo4 = new Proceso("Hilo5", cinco_cifrasD, cinco_cifrasH, primos);
+	    	Proceso hilo5 = new Proceso("Hilo6", seis_cifrasD, seis_cifrasH, primos);
 	    	hilo1.start();
 	    	hilo2.start();
 	    	hilo3.start();
@@ -113,25 +132,6 @@ public class PrimsCircles {
 	    }
 
 
-	    /*
-	    metodo que obtiene los primos ciclicos ciclicos y muestra la lista de los numeros ciclicos y 
-	    la cantidad de numeros ciclicos.
-	    */
-	    public void obtenerPrimosCiclicos(){
-	    	int [] c = getPrimsCircles();
-	    	for (int i = 0; i < c.length; i++) {
-	    		if (c[i]!=0) {
-	    			System.out.println(c[i]);	
-	    		}
-				
-			}
-	    	System.out.println("La cantidad de num ciclicos : "+c.length);
-	    }
-	    
-		
-		
 	
-		
-		
-		
+	
 }
